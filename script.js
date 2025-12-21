@@ -35,18 +35,22 @@ search.addEventListener("input", () => {
         <div>${redact(c.summary)}</div>
       `;
 
-      card.onclick = () => {
-        if (c.status === "SEALED") {
-          lockedCharacter = c;
-          lockName.textContent = c.name;
-          lockInput.value = "";
-          lockError.style.display = "none";
-          overlay.style.display = "flex";
-          lockInput.focus();
-        } else {
-          window.location.href = `character.html?id=${c.id}`;
-        }
-      };
+      card.onclick = (e) => {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (c.status === "SEALED") {
+    lockedCharacter = c;
+    lockName.textContent = c.name;
+    lockInput.value = "";
+    lockError.style.display = "none";
+    overlay.style.display = "flex";
+    return;
+  }
+
+  window.location.href = `character.html?id=${c.id}`;
+};
+
 
       results.appendChild(card);
     });
