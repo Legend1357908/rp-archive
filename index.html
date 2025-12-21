@@ -20,7 +20,7 @@
     #search {
       width: 100%;
       padding: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       background: #111;
       color: white;
       border: 1px solid white;
@@ -29,22 +29,33 @@
     }
 
     #results {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: 15px;
     }
 
     .result-card {
       background: #111;
       border: 1px solid white;
-      padding: 15px;
+      padding: 15px 20px;
       border-radius: 6px;
       cursor: pointer;
-      transition: 0.2s;
+      transition: background 0.2s;
     }
 
     .result-card:hover {
       background: #1a1a1a;
+    }
+
+    .result-name {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
+
+    .result-preview {
+      font-size: 14px;
+      opacity: 0.85;
     }
   </style>
 </head>
@@ -54,8 +65,8 @@
   <h1>Archive Site 1</h1>
 
   <input
-    type="text"
     id="search"
+    type="text"
     placeholder="Search character name..."
   />
 
