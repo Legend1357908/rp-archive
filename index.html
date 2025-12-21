@@ -1,77 +1,103 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Archive</title>
+  <title>RP Archive</title>
   <style>
+    /* Overall body style */
     body {
-      background: #0b0b0b;
-      color: #e0e0e0;
-      font-family: Arial, sans-serif;
-      padding: 20px;
+      background-color: #0a0a0a;
+      color: #00ffcc;
+      font-family: 'Courier New', monospace;
+      padding: 30px;
     }
-    input {
+
+    /* Search input styling */
+    input#search {
       width: 100%;
-      padding: 10px;
-      margin-bottom: 10px;
-      background: #1c1c1c;
-      color: white;
-      border: 1px solid #444;
+      padding: 12px;
+      margin-bottom: 20px;
+      background: #111;
+      color: #00ffcc;
+      border: 1px solid #00ffcc;
+      border-radius: 5px;
+      font-size: 16px;
     }
-    li {
+
+    /* Search results list */
+    #results {
+      margin-top: 10px;
+    }
+
+    #results li {
       cursor: pointer;
-      padding: 6px;
+      padding: 8px;
+      transition: 0.2s;
+      list-style-type: none;
     }
-    li:hover {
-      background: #333;
+
+    #results li:hover {
+      background-color: #001f1f;
+      border-radius: 3px;
+    }
+
+    /* Character details container */
+    #details {
+      margin-top: 20px;
+      border-top: 1px solid #00ffcc;
+      padding-top: 20px;
+    }
+
+    /* Card style for each character */
+    .character-card {
+      background: #111;
+      border: 1px solid #00ffcc;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .character-card:hover {
+      box-shadow: 0 0 15px #00ffcc;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 28px;
+      color: #00ffcc;
+    }
+
+    h2 {
+      margin-top: 0;
+      color: #00ffcc;
+    }
+
+    h3 {
+      margin-bottom: 10px;
+      color: #00ffcc;
+    }
+
+    li {
+      color: #00ffcc;
     }
   </style>
-<style>
-body {
-  background-color: #0a0a0a;
-  color: #00ffcc;
-  font-family: 'Courier New', monospace;
-  padding: 30px;
-}
+</head>
+<body>
 
-input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 20px;
-  background: #111;
-  color: #00ffcc;
-  border: 1px solid #00ffcc;
-  border-radius: 5px;
-  font-size: 16px;
-}
+  <h1>Roleplay Character Archive</h1>
 
-li {
-  cursor: pointer;
-  padding: 8px;
-  transition: 0.2s;
-  list-style-type: none;
-}
+  <!-- Search bar -->
+  <input type="text" id="search" placeholder="Search character name..." />
 
-li:hover {
-  background-color: #001f1f;
-  border-radius: 3px;
-}
+  <!-- Search results list -->
+  <ul id="results"></ul>
 
-#results {
-  margin-top: 10px;
-}
+  <!-- Character details -->
+  <div id="details"></div>
 
-#details {
-  margin-top: 20px;
-  border-top: 1px solid #00ffcc;
-  padding-top: 20px;
-}
+  <!-- Link to JavaScript -->
+  <script src="script.js"></script>
 
-.character-card {
-  background: #111;
-  border: 1px solid #00ffcc;
-  padding: 15px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-}
-</style>
+</body>
+</html>
