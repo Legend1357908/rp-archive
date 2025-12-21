@@ -37,7 +37,7 @@ function renderResults(query) {
     const card = document.createElement("div");
     card.className = "result-card";
 
-    // Ribbon for SEALED cards
+    // ribbon if SEALED
     let ribbonHTML = '';
     if(c.status === "SEALED"){
       ribbonHTML = '<span class="sealed-ribbon">FILE SEALED</span>';
@@ -89,8 +89,6 @@ lockInput.addEventListener("keydown", e => {
       lockError.style.display = "block";
       lockInput.value = "";
       lockInput.focus();
-      lockInput.parentElement.classList.add("shake");
-      setTimeout(()=>lockInput.parentElement.classList.remove("shake"), 400);
     }
   }
 });
