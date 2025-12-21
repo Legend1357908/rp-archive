@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
   <title>Archive Site 1</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
 
   <style>
     body {
@@ -12,79 +13,93 @@
       padding: 30px;
     }
 
-    h1 {
-      font-weight: bold;
-      margin-bottom: 25px;
-    }
+    h1 { font-weight: bold; margin-bottom: 25px; }
 
-    /* Search bar */
     #search {
-      width: 100%;
-      padding: 14px;
-      margin-bottom: 30px;
-      background: #111;
-      color: white;
-      border: 1px solid white;
-      border-radius: 5px;
-      font-size: 16px;
+      width:100%;
+      padding:14px;
+      margin-bottom:30px;
+      background:#111;
+      color:white;
+      border:1px solid white;
+      border-radius:5px;
+      font-size:16px;
     }
 
-    /* Results container */
-    #results {
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-    }
-
-    /* Result box */
-    .result-card {
-      background: #111;
-      border: 1px solid white;
-      padding: 25px 30px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .result-card:hover {
-      background: #1a1a1a;
-    }
-
-    /* Name (largest text) */
-    .result-name {
-      font-size: 22px;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
-
-    /* Meta info (age, role, etc.) */
-    .result-meta {
+    #statusBar {
+      color: #ffb84d;
+      margin-bottom: 12px;
       font-size: 14px;
-      opacity: 0.8;
-      margin-bottom: 10px;
     }
 
-    /* One-line summary */
-    .result-summary {
-      font-size: 15px;
-      line-height: 1.4;
+    #results {
+      display:flex;
+      flex-direction:column;
+      gap:22px;
+    }
+
+    .result-card {
+      background:#111;
+      border:1px solid white;
+      padding:25px 30px;
+      border-radius:8px;
+      cursor:pointer;
+      animation:fileOpen 0.35s ease;
+      transition: background .2s;
+    }
+
+    .result-card:hover { background:#1a1a1a; }
+
+    @keyframes fileOpen {
+      from {opacity:0; transform:translateY(10px);} to {opacity:1; transform:translateY(0);}
+    }
+
+    .archive-header { display:flex; justify-content:space-between; font-size:13px; margin-bottom:10px; opacity:.85;}
+    .archive-id { letter-spacing:1px; }
+    .status { font-weight:bold; }
+    .status.active { color:#9fff9f; }
+    .status.missing { color:#ffb84d; }
+    .status.sealed { color:#ff6b6b; }
+
+    .result-name { font-size:22px; font-weight:bold; margin-bottom:6px; }
+    .result-meta { font-size:14px; opacity:.8; margin-bottom:10px; }
+    .result-summary { font-size:15px; line-height:1.4; }
+
+    .redacted {
+      background-color:white; color:white; padding:0 4px; border-radius:2px; letter-spacing:2px;
+    }
+
+    /* visible debug area (hidden when no message) */
+    #debug {
+      margin-top:18px;
+      font-size:13px;
+      color:#ffb84d;
+      display:none;
+      white-space:pre-wrap;
+    }
+
+    /* graceful "no results" */
+    .no-results {
+      color: #bbb;
+      padding: 12px;
+      border-left: 3px solid #555;
+      background: #0f0f0f;
+      border-radius: 4px;
     }
   </style>
 </head>
-
 <body>
 
   <h1>Archive Site 1</h1>
 
-  <input
-    type="text"
-    id="search"
-    placeholder="Search character name..."
-  />
+  <div id="statusBar">Loading archive...</div>
+
+  <input id="search" type="text" placeholder="Search character name..." autocomplete="off" />
 
   <div id="results"></div>
 
-  <script src="script.js"></script>
+  <div id="debug"></div>
 
+  <script src="script.js"></script>
 </body>
 </html>
