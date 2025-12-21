@@ -1,141 +1,101 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Archive Site 1</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+let characters = [];
+let lockedCharacter = null;
 
-<style>
-/* ===== BODY & GENERAL ===== */
-body {
-  background:#0a0a0a;
-  color:white;
-  font-family:'Courier New', monospace;
-  padding:30px;
-  margin:0;
+// FETCH CHARACTER DATA
+fetch("characters.json")
+  .then(r => r.json())
+  .then(data => characters = data)
+  .catch(err => console.error("Failed to load characters.json:", err));
+
+// ELEMENTS
+const results = document.getElementById("results");
+const search = document.getElementById("search");
+
+const overlay = document.getElementById("lockOverlay");
+const lockName = document.getElementById("lockName");
+const lockInput = document.getElementById("lockInput");
+const lockError = document.querySelector(".lock-error");
+
+// REDACTION HELPER
+function redact(text) {
+  if(!text) return '';
+  return text.replace(/\[REDACTED\]/g,'<span class="redacted">██████</span>');
 }
 
-h1 { margin-bottom:25px; }
+// RENDER SEARCH RESULTS
+function renderResults(query) {
+  results.innerHTML = '';
+  if(!characters.length) return;
 
-/* ===== SEARCH BAR ===== */
-#search {
-  width:100%;
-  padding:14px;
-  margin-bottom:30px;
-  background:#111;
-  color:white;
-  border:1px solid white;
-  border-radius:5px;
-  font-size:16px;
+  const filtered = characters.filter(c => c.name.toLowerCase().includes(query.toLowerCase()));
+  if(filtered.length === 0) {
+    results.innerHTML = '<div class="no-results">No matching records found.</div>';
+    return;
+  }
+
+  filtered.forEach(c => {
+    const card = document.createElement("div");
+    card.className = "result-card";
+    card.innerHTML = `
+      <div class="archive-header">
+        <span>${c.archiveId}</span>
+        <span class="status-${c.status}">${c.status}</span>
+      </div>
+      <div class="result-name">${c.name}</div>
+      <div class="result-meta">${c.meta}</div>
+      <div class="result-summary">${redact(c.summary)}</div>
+    `;
+
+    card.onclick = (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+
+      if(c.status === "SEALED") {
+        lockedCharacter = c;
+        lockName.textContent = c.name;
+        lockInput.value = "";
+        lockError.style.display = "none";
+        overlay.style.display = "flex";
+        lockInput.focus();
+      } else {
+        window.location.href = `character.html?id=${c.id}`;
+      }
+    };
+
+    results.appendChild(card);
+  });
 }
 
-/* ===== RESULTS ===== */
-#results {
-  display:flex;
-  flex-direction:column;
-  gap:22px;
-}
+// SEARCH INPUT
+search.addEventListener("input", () => {
+  renderResults(search.value);
+});
 
-.result-card {
-  background:#111;
-  border:1px solid white;
-  padding:25px 30px;
-  border-radius:8px;
-  cursor:pointer;
-  animation:fileOpen 0.35s ease;
-  transition:background .2s;
-}
+// LOCK INPUT HANDLER
+lockInput.addEventListener("keydown", e => {
+  if(e.key === "Enter" && lockedCharacter){
+    if(lockInput.value === lockedCharacter.lockCode){
+      overlay.style.display = "none";
+      window.location.href = `character.html?id=${lockedCharacter.id}`;
+    } else {
+      lockError.style.display = "block";
+      lockInput.value = "";
+      lockInput.focus();
+    }
+  }
+});
 
-.result-card:hover { background:#1a1a1a; }
+// CLOSE OVERLAY ON ESC OR CLICK OUTSIDE
+overlay.addEventListener("click", e => {
+  if(e.target === overlay){
+    overlay.style.display = "none";
+    lockedCharacter = null;
+  }
+});
 
-@keyframes fileOpen {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1; transform:translateY(0);}
-}
-
-.archive-header {
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-bottom:10px;
-}
-
-.result-name { font-size:22px; font-weight:bold; margin-bottom:6px; }
-.result-meta { font-size:14px; opacity:.8; margin-bottom:10px; }
-.result-summary { font-size:15px; line-height:1.4; }
-
-/* REDACTION */
-.redacted {
-  background:white;
-  color:white;
-  padding:0 4px;
-  border-radius:2px;
-}
-
-/* ===== STATUS COLORS ===== */
-.status-ACTIVE { color:#6bff6b; }
-.status-MISSING { color:#ffd36b; }
-.status-SEALED { color:#ff6b6b; }
-
-/* ===== LOCK OVERLAY ===== */
-#lockOverlay {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.95);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-  animation:fadeIn .25s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity:0; }
-  to { opacity:1; }
-}
-
-.lock-box {
-  border:2px solid white;
-  padding:40px;
-  text-align:center;
-  width:320px;
-}
-
-.lock-box h2 { margin-bottom:10px; }
-.lock-box input {
-  width:80px;
-  padding:10px;
-  font-size:20px;
-  text-align:center;
-  background:#000;
-  color:white;
-  border:1px solid white;
-}
-.lock-error {
-  color:#ff6b6b;
-  margin-top:10px;
-  display:none;
-}
-</style>
-</head>
-
-<body>
-
-<h1>Archive Site 1</h1>
-<input id="search" placeholder="Search character name...">
-<div id="results"></div>
-
-<!-- LOCK OVERLAY -->
-<div id="lockOverlay">
-  <div class="lock-box">
-    <h2 id="lockName"></h2>
-    <p>FILE SEALED</p>
-    <input id="lockInput" maxlength="3" placeholder="000">
-    <div class="lock-error">ACCESS DENIED</div>
-  </div>
-</div>
-
-<script src="script.js"></script>
-</body>
-</html>
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape" && overlay.style.display === "flex"){
+    overlay.style.display = "none";
+    lockedCharacter = null;
+  }
+});
