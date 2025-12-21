@@ -2,7 +2,8 @@
   {
     "id": "aria-valen",
     "name": "Aria Valen",
-    "preview": "Military-raised intelligence asset tied to sealed archival breaches.",
+    "meta": "Age 24 • Intelligence Asset",
+    "summary": "A military-raised operative whose involvement with sealed archives led to her disappearance.",
     "backstory": "Raised in a controlled military program, Aria became an intelligence asset before adulthood.",
     "details": "Her assignments involved archival containment and memory classification.",
     "recentActions": [
