@@ -12,5 +12,33 @@
       "Accessed sealed records",
       "Vanished after Archive Breach"
     ]
+  },
+  {
+    "id": "kael-thorne",
+    "archiveId": "ARCH-02-KAEL",
+    "status": "ACTIVE",
+    "name": "Kael Thorne",
+    "meta": "Age 34 • Independent Operative",
+    "summary": "Former naval officer who now takes private assignments; known for refusing direct recall orders.",
+    "backstory": "Kael served in the fleet before leaving to operate as a private contractor.",
+    "details": "Operates on the periphery of jurisdiction, often hired for convoy protection.",
+    "recentActions": [
+      "Escorted civilian transport",
+      "Ignored command recall"
+    ]
+  },
+  {
+    "id": "lira-voss",
+    "archiveId": "ARCH-03-LIRA",
+    "status": "SEALED",
+    "name": "Lira Voss",
+    "meta": "Age 29 • Undercover Operative",
+    "summary": "Operative embedded in outer colonies; mission logs partially [REDACTED].",
+    "backstory": "Worked covertly for years; records are incomplete.",
+    "details": "Subject to access restrictions—some logs are sealed.",
+    "recentActions": [
+      "Infiltrated enemy base",
+      "Secured encrypted files"
+    ]
   }
 ]
