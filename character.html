@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
-<title>Archive Site 1</title>
+<title>Character File</title>
 
 <style>
 body {
@@ -12,107 +12,52 @@ body {
   padding:30px;
 }
 
-h1 { margin-bottom:25px; }
+a { display:inline-block; margin-bottom:35px; color:white; }
 
-#search {
-  width:100%;
-  padding:14px;
-  margin-bottom:30px;
-  background:#111;
-  color:white;
-  border:1px solid white;
-  border-radius:5px;
-}
-
-#results {
-  display:flex;
-  flex-direction:column;
-  gap:22px;
-}
-
-.result-card {
+.file {
   background:#111;
   border:1px solid white;
-  padding:25px 30px;
-  border-radius:8px;
-  cursor:pointer;
-  animation:fileOpen .3s ease;
+  padding:30px;
+  max-width:900px;
 }
 
-@keyframes fileOpen {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1; transform:translateY(0);}
-}
-
-.archive-header {
-  display:flex;
-  justify-content:space-between;
-  font-size:13px;
-  margin-bottom:10px;
-}
-
-.result-name { font-size:22px; font-weight:bold; }
-.result-meta { opacity:.8; margin-bottom:10px; }
+h3 { margin-top:30px; }
 
 .redacted {
   background:white;
   color:white;
   padding:0 4px;
 }
-
-/* LOCK OVERLAY */
-#lockOverlay {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.95);
-  display:none;
-  align-items:center;
-  justify-content:center;
-  z-index:999;
-}
-
-.lock-box {
-  border:2px solid white;
-  padding:40px;
-  text-align:center;
-  width:320px;
-}
-
-.lock-box h2 { margin-bottom:10px; }
-.lock-box input {
-  width:80px;
-  padding:10px;
-  font-size:20px;
-  text-align:center;
-  background:#000;
-  color:white;
-  border:1px solid white;
-}
-
-.lock-error {
-  color:#ff6b6b;
-  margin-top:10px;
-  display:none;
-}
 </style>
 </head>
 
 <body>
 
-<h1>Archive Site 1</h1>
-<input id="search" placeholder="Search character name...">
-<div id="results"></div>
+<a href="index.html">← Back to Archive</a>
+<div id="file" class="file">Loading...</div>
 
-<!-- LOCK OVERLAY -->
-<div id="lockOverlay">
-  <div class="lock-box">
-    <h2 id="lockName"></h2>
-    <p>FILE SEALED</p>
-    <input id="lockInput" maxlength="3" placeholder="000">
-    <div class="lock-error">ACCESS DENIED</div>
-  </div>
-</div>
+<script>
+const id = new URLSearchParams(location.search).get("id");
 
-<script src="script.js"></script>
+fetch("characters.json")
+.then(r=>r.json())
+.then(chars=>{
+  const c = chars.find(x=>x.id===id);
+  if(!c){ document.getElementById("file").innerText="FILE NOT FOUND"; return; }
+
+  document.getElementById("file").innerHTML = `
+    <h1>${c.name}</h1>
+    <p>${c.meta}</p>
+    <p>${c.backstory}</p>
+
+    <h3>Details</h3>
+    <p>${c.details}</p>
+
+    <h3>Logs</h3>
+    <ul>${(c.logs||[]).map(l=>`<li>${l}</li>`).join("")}</ul>
+  `;
+});
+</script>
+
 </body>
 </html>
