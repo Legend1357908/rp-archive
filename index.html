@@ -103,3 +103,18 @@
   <script src="script.js"></script>
 </body>
 </html>
+/* STATUS COLORS */
+.status-ACTIVE { color:#6bff6b; }
+.status-MISSING { color:#ffd36b; }
+.status-SEALED { color:#ff6b6b; }
+
+/* LOCK OVERLAY FIX */
+#lockOverlay {
+  display:none;
+  animation:fadeIn .25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; }
+  to { opacity:1; }
+}
