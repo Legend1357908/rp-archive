@@ -26,17 +26,52 @@
       background: #333;
     }
   </style>
-</head>
-<body>
+<style>
+body {
+  background-color: #0a0a0a;
+  color: #00ffcc;
+  font-family: 'Courier New', monospace;
+  padding: 30px;
+}
 
-<h1>Archive</h1>
+input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  background: #111;
+  color: #00ffcc;
+  border: 1px solid #00ffcc;
+  border-radius: 5px;
+  font-size: 16px;
+}
 
-<input type="text" id="search" placeholder="Search records..." />
+li {
+  cursor: pointer;
+  padding: 8px;
+  transition: 0.2s;
+  list-style-type: none;
+}
 
-<ul id="results"></ul>
+li:hover {
+  background-color: #001f1f;
+  border-radius: 3px;
+}
 
-<div id="details"></div>
+#results {
+  margin-top: 10px;
+}
 
-<script src="script.js"></script>
-</body>
-</html>
+#details {
+  margin-top: 20px;
+  border-top: 1px solid #00ffcc;
+  padding-top: 20px;
+}
+
+.character-card {
+  background: #111;
+  border: 1px solid #00ffcc;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+}
+</style>
