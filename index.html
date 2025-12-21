@@ -44,6 +44,7 @@ h1 { margin-bottom:25px; }
   cursor:pointer;
   animation:fileOpen 0.35s ease;
   transition:background .2s;
+  position: relative;
 }
 
 .result-card:hover { background:#1a1a1a; }
@@ -77,9 +78,29 @@ h1 { margin-bottom:25px; }
 .status-MISSING { color:#ffd36b; }
 .status-SEALED { color:#ff6b6b; }
 
+/* ===== SEALED CARD WATERMARK ===== */
+.result-card.sealed::after {
+  content: "FILE SEALED";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-30deg);
+  font-size: 32px;
+  color: rgba(255, 107, 107, 0.3);
+  font-weight: bold;
+  pointer-events: none;
+  user-select: none;
+  animation: watermarkFade 0.8s ease;
+}
+
+@keyframes watermarkFade {
+  from { opacity: 0; transform: translate(-50%, -50%) rotate(-30deg) scale(0.8); }
+  to { opacity: 0.3; transform: translate(-50%, -50%) rotate(-30deg) scale(1); }
+}
+
 /* ===== LOCK OVERLAY ===== */
 #lockOverlay {
-  display:none; /* FIX: hidden by default */
+  display:none; /* hidden by default */
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.95);
