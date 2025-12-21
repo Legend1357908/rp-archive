@@ -7,6 +7,13 @@ fetch("characters.json")
 const searchInput = document.getElementById("search");
 const results = document.getElementById("results");
 
+function applyRedaction(text) {
+  return text.replace(
+    /\[REDACTED\]/g,
+    '<span class="redacted">██████</span>'
+  );
+}
+
 searchInput.addEventListener("input", () => {
   const query = searchInput.value.toLowerCase();
   results.innerHTML = "";
@@ -20,9 +27,14 @@ searchInput.addEventListener("input", () => {
       card.className = "result-card";
 
       card.innerHTML = `
+        <div class="archive-header">
+          <span class="archive-id">${c.archiveId}</span>
+          <span class="status ${c.status.toLowerCase()}">${c.status}</span>
+        </div>
+
         <div class="result-name">${c.name}</div>
         <div class="result-meta">${c.meta}</div>
-        <div class="result-summary">${c.summary}</div>
+        <div class="result-summary">${applyRedaction(c.summary)}</div>
       `;
 
       card.onclick = () => {
