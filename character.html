@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Character File</title>
+
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: white;
+      font-family: 'Courier New', monospace;
+      padding: 30px;
+    }
+
+    .card {
+      background: #111;
+      border: 1px solid white;
+      padding: 20px;
+      border-radius: 8px;
+      max-width: 800px;
+    }
+
+    h1 {
+      margin-top: 0;
+    }
+
+    ul {
+      padding-left: 20px;
+    }
+
+    a {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+
+  <a href="index.html">← Back to Archive</a>
+
+  <div id="content" class="card"></div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    fetch("characters.json")
+      .then(res => res.json())
+      .then(characters => {
+        const c = characters.find(ch => ch.id === id);
+        if (!c) return;
+
+        document.getElementById("content").innerHTML = `
+          <h1>${c.name}</h1>
+          <p><strong>Backstory:</strong> ${c.backstory}</p>
+          <p><strong>Details:</strong> ${c.details}</p>
+          <h3>Recent Actions</h3>
+          <ul>
+            ${c.recentActions.map(a => `<li>${a}</li>`).join("")}
+          </ul>
+        `;
+      });
+  </script>
+
+</body>
+</html>
