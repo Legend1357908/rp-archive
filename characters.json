@@ -42,13 +42,13 @@
     ]
   },
   {
-    "id": "lira-voss",
-    "archiveId": "ARCH-03-LIRA",
-    "status": "SEALED",
-    "lockCode": "731",
-    "name": "Lira Voss",
-    "meta": "Age 29 • Undercover Operative",
-    "summary": "Long-term covert operative embedded in outer colonies; mission scope and outcomes partially [REDACTED].",
+  "id": "lira-voss",
+  "archiveId": "ARCH-03-LIRA",
+  "status": "SEALED",
+  "lockCode": "731",
+  "name": "Lira Voss",
+  "meta": "Age 29 • Undercover Operative",
+  "summary": "Long-term covert operative embedded in outer colonies; mission scope and outcomes partially [REDACTED]."
     "backstory": "Lira Voss was deployed under deep-cover protocols with no scheduled extraction window. Multiple reports suggest operational drift beyond original parameters.",
     "details": "All mission data restricted. Access requires clearance override. Exposure risk classified as severe.",
     "recentActions": [
