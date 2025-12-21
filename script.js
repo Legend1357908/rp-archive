@@ -36,20 +36,23 @@ function renderResults(query) {
   filtered.forEach(c => {
     const card = document.createElement("div");
     card.className = "result-card";
+
+    // Ribbon for SEALED cards
+    let ribbonHTML = '';
+    if(c.status === "SEALED"){
+      ribbonHTML = '<span class="sealed-ribbon">FILE SEALED</span>';
+    }
+
     card.innerHTML = `
       <div class="archive-header">
         <span>${c.archiveId}</span>
         <span class="status-${c.status}">${c.status}</span>
       </div>
+      ${ribbonHTML}
       <div class="result-name">${c.name}</div>
       <div class="result-meta">${c.meta}</div>
       <div class="result-summary">${redact(c.summary)}</div>
     `;
-
-    // Add watermark for SEALED cards
-    if(c.status === "SEALED"){
-      card.classList.add("sealed");
-    }
 
     card.onclick = (e) => {
       e.preventDefault();
@@ -86,7 +89,6 @@ lockInput.addEventListener("keydown", e => {
       lockError.style.display = "block";
       lockInput.value = "";
       lockInput.focus();
-      // Optional: add shake effect
       lockInput.parentElement.classList.add("shake");
       setTimeout(()=>lockInput.parentElement.classList.remove("shake"), 400);
     }
