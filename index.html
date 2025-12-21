@@ -73,12 +73,12 @@ h1 { margin-bottom:25px; }
   border-radius:2px;
 }
 
-/* STATUS COLORS */
+/* ===== STATUS COLORS ===== */
 .status-ACTIVE { color:#6bff6b; }
 .status-MISSING { color:#ffd36b; }
 .status-SEALED { color:#ff6b6b; }
 
-/* SEALED RIBBON INSIDE CARD */
+/* ===== SEALED RIBBON ===== */
 .result-card .sealed-ribbon {
   display: block;
   background: #ff6b6b;
@@ -93,9 +93,9 @@ h1 { margin-bottom:25px; }
   width: 100px;
 }
 
-/* LOCK OVERLAY */
+/* ===== LOCK OVERLAY ===== */
 #lockOverlay {
-  display:none;
+  display:none; /* hidden by default */
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.95);
@@ -134,19 +134,6 @@ h1 { margin-bottom:25px; }
   display:none;
   font-weight:bold;
   text-transform:uppercase;
-}
-
-/* SHAKE EFFECT FOR WRONG CODE */
-.shake {
-  animation: shake 0.4s;
-}
-
-@keyframes shake {
-  0% { transform: translateX(0px); }
-  25% { transform: translateX(-5px); }
-  50% { transform: translateX(5px); }
-  75% { transform: translateX(-5px); }
-  100% { transform: translateX(0px); }
 }
 </style>
 </head>
