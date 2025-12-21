@@ -21,7 +21,8 @@ searchInput.addEventListener("input", () => {
 
       card.innerHTML = `
         <div class="result-name">${c.name}</div>
-        <div class="result-preview">${c.preview}</div>
+        <div class="result-meta">${c.meta}</div>
+        <div class="result-summary">${c.summary}</div>
       `;
 
       card.onclick = () => {
