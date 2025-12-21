@@ -2,102 +2,65 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>RP Archive</title>
-  <style>
-    /* Overall body style */
-    body {
-  background-color: #0a0a0a;
-  color: white; /* changed from cyan to white */
-  font-family: 'Courier New', monospace;
-  padding: 30px;
-}
+  <title>Archive Site 1</title>
 
-    /* Search input styling */
-    input#search {
+  <style>
+    body {
+      background-color: #0a0a0a;
+      color: white;
+      font-family: 'Courier New', monospace;
+      padding: 30px;
+    }
+
+    h1 {
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    #search {
       width: 100%;
       padding: 12px;
       margin-bottom: 20px;
       background: #111;
-      color: #00ffcc;
-      border: 1px solid #00ffcc;
+      color: white;
+      border: 1px solid white;
       border-radius: 5px;
       font-size: 16px;
     }
 
-    /* Search results list */
     #results {
-      margin-top: 10px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 15px;
     }
 
-    #results li {
-      cursor: pointer;
-      padding: 8px;
-      transition: 0.2s;
-      list-style-type: none;
-    }
-
-    #results li:hover {
-      background-color: #001f1f;
-      border-radius: 3px;
-    }
-
-    /* Character details container */
-    #details {
-      margin-top: 20px;
-      border-top: 1px solid #00ffcc;
-      padding-top: 20px;
-    }
-
-    /* Card style for each character */
-    .character-card {
+    .result-card {
       background: #111;
-      border: 1px solid #00ffcc;
+      border: 1px solid white;
       padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      transition: all 0.3s ease;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
     }
 
-    .character-card:hover {
-      box-shadow: 0 0 15px #00ffcc;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      font-size: 28px;
-      color: #00ffcc;
-    }
-
-    h2 {
-      margin-top: 0;
-      color: #00ffcc;
-    }
-
-    h3 {
-      margin-bottom: 10px;
-      color: #00ffcc;
-    }
-
-    li {
-      color: #00ffcc;
+    .result-card:hover {
+      background: #1a1a1a;
     }
   </style>
 </head>
+
 <body>
 
-  <h1 style="color: white; font-weight: bold;">Archive Site 1</h1>
+  <h1>Archive Site 1</h1>
 
-  <!-- Search bar -->
-  <input type="text" id="search" placeholder="Search character name..." />
+  <input
+    type="text"
+    id="search"
+    placeholder="Search character name..."
+  />
 
-  <!-- Search results list -->
-  <ul id="results"></ul>
+  <div id="results"></div>
 
-  <!-- Character details -->
-  <div id="details"></div>
-
-  <!-- Link to JavaScript -->
   <script src="script.js"></script>
-
 </body>
 </html>
