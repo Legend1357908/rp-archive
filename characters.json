@@ -1,15 +1,19 @@
 [
   {
+    "id": "aria-valen",
     "name": "Aria Valen",
     "backstory": "Raised in a controlled military program, Aria became an intelligence asset before adulthood.",
+    "details": "Aria served in multiple classified operations involving archival data recovery and cognitive security.",
     "recentActions": [
       "Accessed sealed records",
       "Vanished after Archive Breach"
     ]
   },
   {
+    "id": "kael-thorne",
     "name": "Kael Thorne",
     "backstory": "Former naval officer turned independent operative.",
+    "details": "Kael now operates outside official command structures, taking contracts of questionable legality.",
     "recentActions": [
       "Escorted civilian transport",
       "Ignored command recall"
