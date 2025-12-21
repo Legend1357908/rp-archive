@@ -18,7 +18,11 @@ searchInput.addEventListener("input", () => {
     .forEach(c => {
       const card = document.createElement("div");
       card.className = "result-card";
-      card.textContent = c.name;
+
+      card.innerHTML = `
+        <div class="result-name">${c.name}</div>
+        <div class="result-preview">${c.preview}</div>
+      `;
 
       card.onclick = () => {
         window.location.href = `character.html?id=${c.id}`;
