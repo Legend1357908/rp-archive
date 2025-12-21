@@ -1,91 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <title>Character File</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    body { background:#0a0a0a; color:white; font-family:'Courier New',monospace; padding:30px; }
-    a { color:white; text-decoration:underline; display:inline-block; margin-bottom:35px; }
-    .file-card { background:#111; border:1px solid white; padding:30px; border-radius:8px; max-width:900px; animation:fileOpen 0.4s ease; }
-    @keyframes fileOpen { from{opacity:0; transform:translateY(12px);} to{opacity:1; transform:translateY(0);} }
-    .archive-header { display:flex; justify-content:space-between; font-size:13px; opacity:0.85; margin-bottom:15px; }
-    .archive-id { letter-spacing:1px; }
-    .status { font-weight:bold; }
-    .status.active { color:#9fff9f; }
-    .status.missing { color:#ffb84d; }
-    .status.sealed { color:#ff6b6b; }
-    h1 { margin-top:0; margin-bottom:10px; }
-    .meta { font-size:14px; opacity:0.8; margin-bottom:20px; }
-    h3 { margin-top:25px; margin-bottom:10px; }
-    ul { padding-left:20px; }
-    .redacted { background-color:white; color:white; padding:0 4px; border-radius:2px; letter-spacing:2px; }
-    #debug { margin-top:18px; color:#ffb84d; display:none; white-space:pre-wrap; }
-  </style>
+<meta charset="UTF-8">
+<title>Archive Site 1</title>
+
+<style>
+body {
+  background:#0a0a0a;
+  color:white;
+  font-family:'Courier New', monospace;
+  padding:30px;
+}
+
+h1 { margin-bottom:25px; }
+
+#search {
+  width:100%;
+  padding:14px;
+  margin-bottom:30px;
+  background:#111;
+  color:white;
+  border:1px solid white;
+  border-radius:5px;
+}
+
+#results {
+  display:flex;
+  flex-direction:column;
+  gap:22px;
+}
+
+.result-card {
+  background:#111;
+  border:1px solid white;
+  padding:25px 30px;
+  border-radius:8px;
+  cursor:pointer;
+  animation:fileOpen .3s ease;
+}
+
+@keyframes fileOpen {
+  from {opacity:0; transform:translateY(10px);}
+  to {opacity:1; transform:translateY(0);}
+}
+
+.archive-header {
+  display:flex;
+  justify-content:space-between;
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.result-name { font-size:22px; font-weight:bold; }
+.result-meta { opacity:.8; margin-bottom:10px; }
+
+.redacted {
+  background:white;
+  color:white;
+  padding:0 4px;
+}
+
+/* LOCK OVERLAY */
+#lockOverlay {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.lock-box {
+  border:2px solid white;
+  padding:40px;
+  text-align:center;
+  width:320px;
+}
+
+.lock-box h2 { margin-bottom:10px; }
+.lock-box input {
+  width:80px;
+  padding:10px;
+  font-size:20px;
+  text-align:center;
+  background:#000;
+  color:white;
+  border:1px solid white;
+}
+
+.lock-error {
+  color:#ff6b6b;
+  margin-top:10px;
+  display:none;
+}
+</style>
 </head>
+
 <body>
 
-  <a href="index.html">← Back to Archive</a>
+<h1>Archive Site 1</h1>
+<input id="search" placeholder="Search character name...">
+<div id="results"></div>
 
-  <div id="content" class="file-card">Loading file...</div>
+<!-- LOCK OVERLAY -->
+<div id="lockOverlay">
+  <div class="lock-box">
+    <h2 id="lockName"></h2>
+    <p>FILE SEALED</p>
+    <input id="lockInput" maxlength="3" placeholder="000">
+    <div class="lock-error">ACCESS DENIED</div>
+  </div>
+</div>
 
-  <div id="debug"></div>
-
-  <script>
-    const debug = document.getElementById('debug');
-    function showDebug(msg) { console.log(msg); debug.style.display = 'block'; debug.textContent = msg; }
-
-    function applyRedaction(text) {
-      if (!text) return '';
-      return text.replace(/\[REDACTED\]/g, '<span class="redacted">██████</span>');
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id');
-    if (!id) {
-      document.getElementById('content').innerHTML = '<p>Missing id parameter in URL.</p>';
-      showDebug('character.html: missing id parameter. URL should be character.html?id=aria-valen');
-      throw new Error('Missing id parameter');
-    }
-
-    fetch('characters.json')
-      .then(res => {
-        if (!res.ok) throw new Error('Failed to fetch characters.json (status ' + res.status + ')');
-        return res.json();
-      })
-      .then(characters => {
-        if (!Array.isArray(characters)) throw new Error('characters.json is not an array');
-        const c = characters.find(ch => ch.id === id);
-        if (!c) {
-          document.getElementById('content').innerHTML = '<p>File not found: ' + id + '</p>';
-          showDebug('character.html: file not found for id=' + id + '\nAvailable ids: ' + characters.map(x => x.id).join(', '));
-          return;
-        }
-
-        document.getElementById('content').innerHTML = `
-          <div class="archive-header">
-            <span class="archive-id">${c.archiveId || c.id}</span>
-            <span class="status ${ (c.status||'active').toLowerCase() }">${ (c.status||'ACTIVE').toUpperCase() }</span>
-          </div>
-
-          <h1>${c.name}</h1>
-          <div class="meta">${c.meta || ''}</div>
-
-          <p>${applyRedaction(c.backstory)}</p>
-
-          <h3>Details</h3>
-          <p>${applyRedaction(c.details)}</p>
-
-          <h3>Recent Actions</h3>
-          <ul>
-            ${ (c.recentActions || []).map(a => `<li>${a}</li>`).join('') }
-          </ul>
-        `;
-      })
-      .catch(err => {
-        document.getElementById('content').innerHTML = '<p>Error loading character file.</p>';
-        showDebug('Error in character.html: ' + err.message);
-      });
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
