@@ -46,6 +46,11 @@ function renderResults(query) {
       <div class="result-summary">${redact(c.summary)}</div>
     `;
 
+    // Add watermark for SEALED cards
+    if(c.status === "SEALED"){
+      card.classList.add("sealed");
+    }
+
     card.onclick = (e) => {
       e.preventDefault();
       e.stopPropagation();
@@ -81,6 +86,9 @@ lockInput.addEventListener("keydown", e => {
       lockError.style.display = "block";
       lockInput.value = "";
       lockInput.focus();
+      // Optional: add shake effect
+      lockInput.parentElement.classList.add("shake");
+      setTimeout(()=>lockInput.parentElement.classList.remove("shake"), 400);
     }
   }
 });
