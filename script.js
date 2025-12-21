@@ -28,7 +28,7 @@ search.addEventListener("input", () => {
       card.innerHTML = `
         <div class="archive-header">
           <span>${c.archiveId}</span>
-          <span>${c.status}</span>
+          <span class="status-${c.status}">${c.status}</span>
         </div>
         <div class="result-name">${c.name}</div>
         <div class="result-meta">${c.meta}</div>
