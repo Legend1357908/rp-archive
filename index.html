@@ -6,60 +6,85 @@
 
   <style>
     body {
-  background-color: #0a0a0a;
-  color: white;
-  font-family: 'Courier New', monospace;
-  padding: 30px;
-}
+      background-color: #0a0a0a;
+      color: white;
+      font-family: 'Courier New', monospace;
+      padding: 30px;
+    }
 
-h1 {
-  font-weight: bold;
-  margin-bottom: 20px;
-}
+    h1 {
+      font-weight: bold;
+      margin-bottom: 25px;
+    }
 
-#search {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 30px;
-  background: #111;
-  color: white;
-  border: 1px solid white;
-  border-radius: 5px;
-  font-size: 16px;
-}
+    /* Search bar */
+    #search {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 30px;
+      background: #111;
+      color: white;
+      border: 1px solid white;
+      border-radius: 5px;
+      font-size: 16px;
+    }
 
-#results {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+    /* Results container */
+    #results {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
 
-.result-card {
-  background: #111;
-  border: 1px solid white;
-  padding: 25px 30px; /* BIGGER */
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.2s;
-}
+    /* Result box */
+    .result-card {
+      background: #111;
+      border: 1px solid white;
+      padding: 25px 30px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
 
-.result-card:hover {
-  background: #1a1a1a;
-}
+    .result-card:hover {
+      background: #1a1a1a;
+    }
 
-.result-name {
-  font-size: 22px; /* BIG */
-  font-weight: bold;
-  margin-bottom: 6px;
-}
+    /* Name (largest text) */
+    .result-name {
+      font-size: 22px;
+      font-weight: bold;
+      margin-bottom: 6px;
+    }
 
-.result-meta {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 10px;
-}
+    /* Meta info (age, role, etc.) */
+    .result-meta {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
 
-.result-summary {
-  font-size: 15px;
-  line-height: 1.4;
-}
+    /* One-line summary */
+    .result-summary {
+      font-size: 15px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Archive Site 1</h1>
+
+  <input
+    type="text"
+    id="search"
+    placeholder="Search character name..."
+  />
+
+  <div id="results"></div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>
