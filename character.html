@@ -6,114 +6,137 @@
 
   <style>
     body {
-  background-color: #0a0a0a;
-  color: white;
-  font-family: 'Courier New', monospace;
-  padding: 30px;
-}
+      background-color: #0a0a0a;
+      color: white;
+      font-family: 'Courier New', monospace;
+      padding: 30px;
+    }
 
-h1 {
-  font-weight: bold;
-  margin-bottom: 25px;
-}
+    a {
+      color: white;
+      text-decoration: underline;
+      display: inline-block;
+      margin-bottom: 35px; /* SPACE BELOW BACK LINK */
+    }
 
-#search {
-  width: 100%;
-  padding: 14px;
-  margin-bottom: 30px;
-  background: #111;
-  color: white;
-  border: 1px solid white;
-  border-radius: 5px;
-  font-size: 16px;
-}
+    .file-card {
+      background: #111;
+      border: 1px solid white;
+      padding: 30px;
+      border-radius: 8px;
+      max-width: 900px;
+      animation: fileOpen 0.4s ease;
+    }
 
-#results {
-  display: flex;
-  flex-direction: column;
-  gap: 22px;
-}
+    @keyframes fileOpen {
+      from {
+        opacity: 0;
+        transform: translateY(12px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
 
-/* FILE CARD */
-.result-card {
-  background: #111;
-  border: 1px solid white;
-  padding: 25px 30px;
-  border-radius: 8px;
-  cursor: pointer;
-  animation: fileOpen 0.35s ease;
-  transition: background 0.2s;
-}
+    .archive-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      opacity: 0.85;
+      margin-bottom: 15px;
+    }
 
-.result-card:hover {
-  background: #1a1a1a;
-}
+    .archive-id {
+      letter-spacing: 1px;
+    }
 
-/* FILE OPEN TRANSITION */
-@keyframes fileOpen {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+    .status {
+      font-weight: bold;
+    }
 
-/* ARCHIVE HEADER */
-.archive-header {
-  display: flex;
-  justify-content: space-between;
-  font-size: 13px;
-  margin-bottom: 10px;
-  opacity: 0.85;
-}
+    .status.active { color: #9fff9f; }
+    .status.missing { color: #ffb84d; }
+    .status.sealed { color: #ff6b6b; }
 
-.archive-id {
-  letter-spacing: 1px;
-}
+    h1 {
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
 
-/* STATUS STAMPS */
-.status {
-  font-weight: bold;
-}
+    .meta {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 20px;
+    }
 
-.status.active {
-  color: #9fff9f;
-}
+    h3 {
+      margin-top: 25px;
+      margin-bottom: 10px;
+    }
 
-.status.missing {
-  color: #ffb84d;
-}
+    ul {
+      padding-left: 20px;
+    }
 
-.status.sealed {
-  color: #ff6b6b;
-}
+    .redacted {
+      background-color: white;
+      color: white;
+      padding: 0 4px;
+      border-radius: 2px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
 
-/* TEXT */
-.result-name {
-  font-size: 22px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
+<body>
 
-.result-meta {
-  font-size: 14px;
-  opacity: 0.8;
-  margin-bottom: 10px;
-}
+  <a href="index.html">← Back to Archive</a>
 
-.result-summary {
-  font-size: 15px;
-  line-height: 1.4;
-}
+  <div id="content" class="file-card"></div>
 
-/* REDACTION EFFECT */
-.redacted {
-  background-color: white;
-  color: white;
-  padding: 0 4px;
-  border-radius: 2px;
-  letter-spacing: 2px;
-}
+  <script>
+    function applyRedaction(text) {
+      return text.replace(
+        /\[REDACTED\]/g,
+        '<span class="redacted">██████</span>'
+      );
+    }
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+
+    fetch("characters.json")
+      .then(res => res.json())
+      .then(characters => {
+        const c = characters.find(ch => ch.id === id);
+        if (!c) {
+          document.getElementById("content").innerHTML =
+            "<p>File not found.</p>";
+          return;
+        }
+
+        document.getElementById("content").innerHTML = `
+          <div class="archive-header">
+            <span class="archive-id">${c.archiveId}</span>
+            <span class="status ${c.status.toLowerCase()}">${c.status}</span>
+          </div>
+
+          <h1>${c.name}</h1>
+          <div class="meta">${c.meta}</div>
+
+          <p>${applyRedaction(c.backstory)}</p>
+
+          <h3>Details</h3>
+          <p>${applyRedaction(c.details)}</p>
+
+          <h3>Recent Actions</h3>
+          <ul>
+            ${c.recentActions.map(a => `<li>${a}</li>`).join("")}
+          </ul>
+        `;
+      });
+  </script>
+
+</body>
+</html>
