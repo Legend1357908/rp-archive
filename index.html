@@ -3,253 +3,36 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Archive Viewer</title>
-  <style>
-    :root{
-      --bg:#f7f7f8;
-      --muted:#6b6b6b;
-      --card:#ffffff;
-      --accent:#111;
-      --overlay-bg:rgba(0,0,0,0.92);
-    }
+  <title>Archive — Index</title>
 
-    html,body{height:100%;margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;color:var(--accent);background:var(--bg);-webkit-font-smoothing:antialiased}
-    .wrap{max-width:880px;margin:36px auto;padding:20px}
-
-    header{margin-bottom:18px}
-    h1{font-size:1.15rem;margin:0 0 6px 0}
-    p.lead{margin:0;color:var(--muted);font-size:0.95rem}
-
-    /* File list */
-    #fileList{list-style:none;padding:0;margin:18px 0;border-radius:8px;overflow:hidden;box-shadow:0 1px 0 rgba(0,0,0,0.04)}
-    .file{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--card);border-bottom:1px solid rgba(0,0,0,0.04);cursor:pointer;user-select:none}
-    .file:last-child{border-bottom:0}
-    .file:hover{background:linear-gradient(90deg,rgba(0,0,0,0.02),transparent)}
-    .filename{font-size:0.98rem}
-    .meta{font-size:0.82rem;color:var(--muted);margin-left:12px}
-
-    /* Hide sealed items entirely */
-    .file.sealed{display:none !important}
-
-    /* Status badges hidden by default; restricted remains visible if present */
-    .status-badge{display:none;font-weight:600;padding:4px 8px;border-radius:999px;background:#111;color:#fff;font-size:0.72rem}
-    .file[data-status="restricted"] .status-badge{display:inline-block;background:#8b0000}
-
-    /* Viewer card */
-    #viewer{margin-top:18px;background:var(--card);border:1px solid rgba(0,0,0,0.06);padding:14px;border-radius:8px;display:none}
-    #viewerHeader{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-    #fileContent{white-space:pre-wrap;color:#222;line-height:1.45;font-size:0.95rem;max-height:56vh;overflow:auto;padding-right:6px}
-
-    .btn{appearance:none;border:0;background:#111;color:#fff;padding:8px 10px;border-radius:6px;cursor:pointer;font-size:0.9rem}
-    .btn.ghost{background:transparent;color:var(--muted);border:1px solid rgba(0,0,0,0.06)}
-
-    /* Blackout overlay */
-    #blackout{
-      position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
-      background:var(--overlay-bg);color:#e6e6e6;padding:2rem;text-align:center;z-index:9999;
-      opacity:0;pointer-events:none;transition:opacity 180ms ease;font-size:1.05rem;letter-spacing:0.02em;
-      font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
-    }
-    #blackout.show{opacity:1;pointer-events:auto}
-    #blackoutMessage{max-width:60ch;line-height:1.4}
-
-    /* Small responsive tweaks */
-    @media (max-width:520px){
-      .wrap{margin:18px;padding:14px}
-      #blackout{font-size:0.98rem;padding:1.25rem}
-    }
-  </style>
+  <!-- Site stylesheet (paste the CSS you already have into style.css) -->
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="wrap">
     <header>
-      <h1>Archive Viewer</h1>
-      <p class="lead">Click an item to inspect. Restricted files will not open.</p>
+      <h1>Archive</h1>
+      <p class="lead">Select an entry to inspect. Restricted files will not open.</p>
     </header>
 
-    <!-- File list -->
-    <ul id="fileList" role="list">
-      <li class="file" data-filename="notes.txt" data-status="normal" role="listitem" tabindex="0">
-        <span class="filename">notes.txt</span>
-        <span class="meta"><span class="status-badge">normal</span></span>
-      </li>
+    <!-- File list container — script.js will populate this from characters.json -->
+    <ul id="fileList" role="list" aria-live="polite"></ul>
 
-      <li class="file sealed" data-filename="old-diary.txt" data-status="sealed" role="listitem" tabindex="0">
-        <span class="filename">old-diary.txt</span>
-        <span class="meta"><span class="status-badge">sealed</span></span>
-      </li>
-
-      <li class="file" data-filename="locked.doc" data-status="codelock" role="listitem" tabindex="0">
-        <span class="filename">locked.doc</span>
-        <span class="meta"><span class="status-badge">codelock</span></span>
-      </li>
-
-      <li class="file" data-filename="missing.pdf" data-status="missing" role="listitem" tabindex="0">
-        <span class="filename">missing.pdf</span>
-        <span class="meta"><span class="status-badge">missing</span></span>
-      </li>
-
-      <li class="file" data-filename="secret.bin" data-status="restricted" role="listitem" tabindex="0">
-        <span class="filename">secret.bin</span>
-        <span class="meta"><span class="status-badge">restricted</span></span>
-      </li>
-    </ul>
-
-    <!-- Viewer -->
-    <section id="viewer" aria-hidden="true">
-      <div id="viewerHeader">
-        <strong id="viewerTitle">—</strong>
-        <div>
-          <button id="closeViewer" class="btn">Close</button>
-        </div>
+    <!-- Fallback content for users without JavaScript -->
+    <noscript>
+      <div class="card" style="padding:12px;border-radius:8px;background:#fff;border:1px solid rgba(0,0,0,0.06);">
+        <strong>JavaScript required</strong>
+        <p class="lead" style="margin:6px 0 0 0;color:#6b6b6b">This archive requires JavaScript to load entries. Enable JavaScript and reload the page.</p>
       </div>
-      <div id="fileContent" tabindex="0" aria-live="polite"></div>
-    </section>
+    </noscript>
   </div>
 
-  <!-- Blackout overlay -->
+  <!-- Blackout overlay used for click feedback and cryptic lines -->
   <div id="blackout" aria-hidden="true">
     <div id="blackoutMessage" role="status" aria-live="polite"></div>
   </div>
 
-  <script>
-    (function(){
-      // Cryptic lines
-      const openLines = [
-        "Zou rummages through paper...",
-        "A folded note slips free...",
-        "You pry open a brittle envelope...",
-        "Fingers trace a faded stamp...",
-        "A whisper of dust and ink..."
-      ];
-
-      const closeLines = [
-        "You put them back, neat...",
-        "Pages settle; the room exhales...",
-        "You tuck it away, quiet...",
-        "The paper folds into shadow...",
-        "You slide it back; echoes thin..."
-      ];
-
-      // Elements
-      const fileList = document.getElementById('fileList');
-      const blackout = document.getElementById('blackout');
-      const blackoutMessage = document.getElementById('blackoutMessage');
-      const viewer = document.getElementById('viewer');
-      const viewerTitle = document.getElementById('viewerTitle');
-      const fileContent = document.getElementById('fileContent');
-      const closeViewer = document.getElementById('closeViewer');
-
-      // Utility
-      function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-      // Remove sealed nodes (safety)
-      document.querySelectorAll('.file.sealed').forEach(n => n.remove());
-
-      // Hide status badges except restricted
-      document.querySelectorAll('.file').forEach(li => {
-        const s = li.dataset.status;
-        if (s && s !== 'restricted') {
-          const badge = li.querySelector('.status-badge');
-          if (badge) badge.remove();
-        }
-      });
-
-      // Show blackout with message; returns a Promise that resolves after animation
-      function showBlackout(message, visibleMs = 600){
-        return new Promise(resolve => {
-          blackoutMessage.textContent = message;
-          blackout.classList.add('show');
-          // keep visible for visibleMs, then fade
-          setTimeout(() => {
-            blackout.classList.remove('show');
-            // wait for transition to finish
-            setTimeout(resolve, 220);
-          }, visibleMs);
-        });
-      }
-
-      // Flash a short message without opening viewer
-      async function flashMessage(msg){
-        await showBlackout(msg, 900);
-      }
-
-      // Simulated file loader (replace with real fetch if desired)
-      function loadFileContent(filename){
-        // Example placeholder content; in a real site fetch the file or render markdown
-        const samples = {
-          "notes.txt":"A few scrawled lines about errands and a name half-remembered.\n\n— end of note —",
-          "locked.doc":"This file appears encrypted. The text is scrambled and unreadable.",
-          "missing.pdf":"This entry is listed but the file is not present in the archive.",
-        };
-        return samples[filename] || "(Contents would appear here.)";
-      }
-
-      // Open file
-      async function openFile(li){
-        const status = li.dataset.status || 'normal';
-        const filename = li.dataset.filename || li.textContent.trim();
-
-        if (status === 'restricted'){
-          await flashMessage("Restricted — file will not open.");
-          return;
-        }
-
-        // Show opening blackout
-        await showBlackout(pick(openLines), 700);
-
-        // Populate viewer
-        viewerTitle.textContent = filename;
-        fileContent.textContent = loadFileContent(filename);
-        viewer.style.display = 'block';
-        viewer.setAttribute('aria-hidden','false');
-        fileContent.focus();
-      }
-
-      // Close viewer
-      async function closeFile(){
-        await showBlackout(pick(closeLines), 600);
-        viewer.style.display = 'none';
-        viewer.setAttribute('aria-hidden','true');
-        viewerTitle.textContent = '—';
-        fileContent.textContent = '';
-      }
-
-      // Click and keyboard handlers
-      fileList.addEventListener('click', (e) => {
-        const li = e.target.closest('.file');
-        if (!li) return;
-        openFile(li);
-      });
-
-      fileList.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          const li = e.target.closest('.file');
-          if (!li) return;
-          e.preventDefault();
-          openFile(li);
-        }
-      });
-
-      closeViewer.addEventListener('click', () => closeFile());
-      closeViewer.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          closeFile();
-        }
-      });
-
-      // Close on Escape
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && viewer.style.display === 'block') {
-          closeFile();
-        }
-      });
-
-      // Accessibility: announce when overlay appears (aria-live handles this)
-      // No further action required here.
-
-    })();
-  </script>
+  <!-- Main script (handles loading characters.json, rendering list, blackout, and navigation) -->
+  <script src="script.js"></script>
 </body>
 </html>
