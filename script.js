@@ -55,13 +55,18 @@ let line = 0;
 let char = 0;
 
 function typeIntro() {
-  if (line >= introLines.length) {
-    setTimeout(() => {
-      boot.style.opacity = "0";
-      setTimeout(() => boot.remove(), 800);
-    }, 1200);
-    return;
-  }
+if (line >= introLines.length) {
+  // Pause after final line
+  setTimeout(() => {
+    // Slow fade
+    boot.style.transition = "opacity 2.5s ease";
+    boot.style.opacity = "0";
+
+    // Remove after fade completes
+    setTimeout(() => boot.remove(), 2600);
+  }, 2000);
+  return;
+}
   if (char < introLines[line].length) {
     bootText.textContent += introLines[line][char++];
     setTimeout(typeIntro, 35);
