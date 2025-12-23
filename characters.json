@@ -1,27 +1,16 @@
 [
   {
-    "id":"lira-voss",
-    "archiveId":"ARCH-03-LIRA",
-    "status":"SEALED",
-    "lockCode":"731",
-    "name":"Lira Voss",
-    "meta":"Age 29 • Undercover Operative",
-    "summary":"Embedded operative assigned to long-term observation of [REDACTED] systems."
+    "id": "001",
+    "name": "Eldric Thorne",
+    "status": "SEALED",
+    "summary": "Age 42 — Former Royal Archivist. Knows too much about the Old Crown.",
+    "details": "Eldric vanished after cataloguing the Black Ledger. His notes end abruptly, ink torn from the page as if scraped away."
   },
   {
-    "id":"aria-valen",
-    "archiveId":"ARCH-01-ARIA",
-    "status":"MISSING",
-    "name":"Aria Valen",
-    "meta":"Age 24 • Intelligence Asset",
-    "summary":"Disappeared following unauthorized access to archival layers."
-  },
-  {
-    "id":"kael-thorne",
-    "archiveId":"ARCH-02-KAEL",
-    "status":"ACTIVE",
-    "name":"Kael Thorne",
-    "meta":"Age 34 • Independent Operative",
-    "summary":"Former officer operating beyond command oversight."
+    "id": "002",
+    "name": "Maelin of Ash",
+    "status": "ACTIVE",
+    "summary": "Age unknown — Wandering chronicler. Writes names that should not exist.",
+    "details": "Maelin has been sighted across multiple regions over decades, unchanged. Marginal notes appear in handwriting that does not match his own."
   }
 ]
