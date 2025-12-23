@@ -6,30 +6,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-/* ===== BODY & GENERAL ===== */
+/* ================== CORE ================== */
 body {
-  background:#0a0a0a;
+  background:#050505;
   color:white;
-  font-family:'Courier New', monospace;
+  font-family:"Courier New", monospace;
   padding:30px;
   margin:0;
 }
 
+/* CRT EFFECT */
+body::before {
+  content:"";
+  position:fixed;
+  inset:0;
+  background:repeating-linear-gradient(
+    to bottom,
+    rgba(255,255,255,.025),
+    rgba(255,255,255,.025) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events:none;
+  z-index:1000;
+}
+
+body::after {
+  content:"";
+  position:fixed;
+  inset:0;
+  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:1001;
+}
+
+/* ================== BOOT ================== */
+#boot {
+  position:fixed;
+  inset:0;
+  background:black;
+  color:#6bff6b;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  animation:bootFade 2.2s ease forwards;
+}
+
+@keyframes bootFade {
+  0%,80% { opacity:1; }
+  100% { opacity:0; pointer-events:none; }
+}
+
+.boot-text {
+  line-height:1.6;
+  animation:flicker 1.4s infinite;
+}
+
+@keyframes flicker {
+  50% { opacity:.85; }
+}
+
+/* ================== SEARCH ================== */
 h1 { margin-bottom:25px; }
 
-/* ===== SEARCH BAR ===== */
 #search {
   width:100%;
   padding:14px;
-  margin-bottom:30px;
-  background:#111;
+  background:#0b0b0b;
   color:white;
   border:1px solid white;
-  border-radius:5px;
+  margin-bottom:30px;
   font-size:16px;
 }
 
-/* ===== RESULTS ===== */
+/* ================== RESULTS ================== */
 #results {
   display:flex;
   flex-direction:column;
@@ -37,77 +88,66 @@ h1 { margin-bottom:25px; }
 }
 
 .result-card {
-  background:#111;
+  background:#0b0b0b;
   border:1px solid white;
-  padding:25px 30px;
-  border-radius:8px;
+  padding:26px 30px;
+  border-radius:6px;
   cursor:pointer;
-  animation:fileOpen 0.35s ease;
-  transition:background .2s;
-  position: relative;
+  animation:panelIn .35s ease forwards;
+  opacity:0;
 }
 
-.result-card:hover { background:#1a1a1a; }
-
-@keyframes fileOpen {
-  from {opacity:0; transform:translateY(10px);}
-  to {opacity:1; transform:translateY(0);}
+@keyframes panelIn {
+  from { opacity:0; transform:translateY(12px); }
+  to { opacity:1; transform:translateY(0); }
 }
+
+.result-card:hover { background:#141414; }
 
 .archive-header {
   display:flex;
   justify-content:space-between;
-  font-size:13px;
-  margin-bottom:10px;
+  font-size:12px;
+  margin-bottom:8px;
 }
 
 .result-name { font-size:22px; font-weight:bold; margin-bottom:6px; }
-.result-meta { font-size:14px; opacity:.8; margin-bottom:10px; }
-.result-summary { font-size:15px; line-height:1.4; }
+.result-meta { opacity:.8; margin-bottom:10px; }
+.result-summary { line-height:1.4; }
 
-/* REDACTION */
+/* ================== STATUS ================== */
+.status-ACTIVE { color:#6bff6b; border:1px solid #6bff6b; padding:2px 6px; }
+.status-MISSING { color:#ffd36b; border:1px solid #ffd36b; padding:2px 6px; }
+.status-SEALED { color:#ff6b6b; border:1px solid #ff6b6b; padding:2px 6px; }
+
+/* ================== SEALED RIBBON ================== */
+.sealed-ribbon {
+  background:#ff6b6b;
+  color:white;
+  font-size:11px;
+  font-weight:bold;
+  letter-spacing:1px;
+  padding:4px 10px;
+  display:inline-block;
+  margin-bottom:8px;
+}
+
+/* ================== REDACTION ================== */
 .redacted {
   background:white;
   color:white;
   padding:0 4px;
-  border-radius:2px;
 }
 
-/* ===== STATUS COLORS ===== */
-.status-ACTIVE { color:#6bff6b; }
-.status-MISSING { color:#ffd36b; }
-.status-SEALED { color:#ff6b6b; }
-
-/* ===== SEALED RIBBON INSIDE CARD ===== */
-.result-card .sealed-ribbon {
-  display: block;
-  background: #ff6b6b;
-  color: white;
-  font-weight: bold;
-  font-size: 12px;
-  text-align: center;
-  padding: 4px 0;
-  border-radius: 3px;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
-  width: 100px;
-}
-
-/* ===== LOCK OVERLAY ===== */
+/* ================== LOCK OVERLAY ================== */
 #lockOverlay {
-  display:none; /* hidden by default */
+  display:none;
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.95);
   align-items:center;
   justify-content:center;
-  z-index:999;
-  animation:fadeIn .25s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity:0; }
-  to { opacity:1; }
+  z-index:9998;
 }
 
 .lock-box {
@@ -115,36 +155,41 @@ h1 { margin-bottom:25px; }
   padding:40px;
   text-align:center;
   width:320px;
-  position:relative;
 }
 
-.lock-box h2 { margin-bottom:10px; }
 .lock-box input {
   width:80px;
-  padding:10px;
   font-size:20px;
-  text-align:center;
-  background:#000;
+  padding:8px;
+  background:black;
   color:white;
   border:1px solid white;
+  text-align:center;
 }
+
 .lock-error {
   color:#ff6b6b;
   margin-top:10px;
   display:none;
-  font-weight:bold;
-  text-transform:uppercase;
 }
 </style>
 </head>
 
 <body>
 
+<div id="boot">
+  <div class="boot-text">
+    INITIALIZING ARCHIVE NODE<br>
+    LOADING RECORD INDEX<br>
+    VERIFYING ACCESS KEYS<br>
+    STATUS: ONLINE
+  </div>
+</div>
+
 <h1>Archive Site 1</h1>
 <input id="search" placeholder="Search character name...">
 <div id="results"></div>
 
-<!-- LOCK OVERLAY -->
 <div id="lockOverlay">
   <div class="lock-box">
     <h2 id="lockName"></h2>
