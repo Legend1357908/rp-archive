@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-/* ================== CORE ================== */
+/* ===== BASE ===== */
 body {
   background:#050505;
   color:white;
@@ -15,7 +15,7 @@ body {
   margin:0;
 }
 
-/* CRT EFFECT */
+/* ===== CRT OVERLAY ===== */
 body::before {
   content:"";
   position:fixed;
@@ -40,34 +40,30 @@ body::after {
   z-index:1001;
 }
 
-/* ================== BOOT ================== */
+/* ===== INTRO ===== */
 #boot {
   position:fixed;
   inset:0;
   background:black;
-  color:#6bff6b;
+  color:white;
   display:flex;
   align-items:center;
   justify-content:center;
   z-index:9999;
-  animation:bootFade 2.2s ease forwards;
 }
 
-@keyframes bootFade {
-  0%,80% { opacity:1; }
-  100% { opacity:0; pointer-events:none; }
-}
-
-.boot-text {
+#bootText {
+  max-width:600px;
   line-height:1.6;
-  animation:flicker 1.4s infinite;
+  white-space:pre-wrap;
+  animation:flicker 2s infinite;
 }
 
 @keyframes flicker {
-  50% { opacity:.85; }
+  50% { opacity:.9; }
 }
 
-/* ================== SEARCH ================== */
+/* ===== SEARCH ===== */
 h1 { margin-bottom:25px; }
 
 #search {
@@ -80,7 +76,7 @@ h1 { margin-bottom:25px; }
   font-size:16px;
 }
 
-/* ================== RESULTS ================== */
+/* ===== RESULTS ===== */
 #results {
   display:flex;
   flex-direction:column;
@@ -115,12 +111,12 @@ h1 { margin-bottom:25px; }
 .result-meta { opacity:.8; margin-bottom:10px; }
 .result-summary { line-height:1.4; }
 
-/* ================== STATUS ================== */
+/* ===== STATUS ===== */
 .status-ACTIVE { color:#6bff6b; border:1px solid #6bff6b; padding:2px 6px; }
 .status-MISSING { color:#ffd36b; border:1px solid #ffd36b; padding:2px 6px; }
 .status-SEALED { color:#ff6b6b; border:1px solid #ff6b6b; padding:2px 6px; }
 
-/* ================== SEALED RIBBON ================== */
+/* ===== SEALED RIBBON ===== */
 .sealed-ribbon {
   background:#ff6b6b;
   color:white;
@@ -132,14 +128,14 @@ h1 { margin-bottom:25px; }
   margin-bottom:8px;
 }
 
-/* ================== REDACTION ================== */
+/* ===== REDACTION ===== */
 .redacted {
   background:white;
   color:white;
   padding:0 4px;
 }
 
-/* ================== LOCK OVERLAY ================== */
+/* ===== LOCK OVERLAY ===== */
 #lockOverlay {
   display:none;
   position:fixed;
@@ -178,16 +174,11 @@ h1 { margin-bottom:25px; }
 <body>
 
 <div id="boot">
-  <div class="boot-text">
-    INITIALIZING ARCHIVE NODE<br>
-    LOADING RECORD INDEX<br>
-    VERIFYING ACCESS KEYS<br>
-    STATUS: ONLINE
-  </div>
+  <div id="bootText"></div>
 </div>
 
 <h1>Archive Site 1</h1>
-<input id="search" placeholder="Search character name...">
+<input id="search" placeholder="Search the records...">
 <div id="results"></div>
 
 <div id="lockOverlay">
