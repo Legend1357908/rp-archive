@@ -1,87 +1,27 @@
 [
   {
-    "id": "aria-valen",
-    "archiveId": "ARCH-01-ARIA",
-    "status": "MISSING",
-    "name": "Aria Valen",
-    "meta": "Age 24 • Intelligence Asset",
-    "summary": "A military-raised operative whose involvement with [REDACTED] archival material preceded her disappearance.",
-    "backstory": "Raised in a controlled military program, Aria Valen was conditioned for intelligence work from an early age. Her exposure to classified archival systems resulted in multiple memory gaps and a gradual behavioral shift.",
-    "details": "Assigned to deep-record analysis and containment review. Clearance escalated twice within a single year before records ceased.",
-    "recentActions": [
-      "Requested access to sealed archives",
-      "Filed anomalous report regarding memory recursion",
-      "Last confirmed presence in Archive Wing C"
-    ],
-    "logs": [
-      "Log 01 — Initial induction into intelligence program approved.",
-      "Log 05 — Subject displays abnormal recall retention.",
-      "Log 09 — Archive access request flagged for review.",
-      "Log 12 — Subject status updated to MISSING."
-    ]
+    "id":"lira-voss",
+    "archiveId":"ARCH-03-LIRA",
+    "status":"SEALED",
+    "lockCode":"731",
+    "name":"Lira Voss",
+    "meta":"Age 29 • Undercover Operative",
+    "summary":"Embedded operative assigned to long-term observation of [REDACTED] systems."
   },
   {
-    "id": "kael-thorne",
-    "archiveId": "ARCH-02-KAEL",
-    "status": "ACTIVE",
-    "name": "Kael Thorne",
-    "meta": "Age 34 • Independent Operative",
-    "summary": "Former naval officer operating beyond formal command, known for selective compliance and operational autonomy.",
-    "backstory": "Kael Thorne served as a decorated officer before severing ties with central command. His transition to independent work followed a classified disciplinary hearing.",
-    "details": "Frequently contracted for convoy security and asset extraction. Maintains informal contacts within naval logistics.",
-    "recentActions": [
-      "Completed civilian transport escort",
-      "Declined command recall directive",
-      "Entered unregistered operational zone"
-    ],
-    "logs": [
-      "Log 03 — Court-martial proceedings suspended.",
-      "Log 06 — Subject resigns commission.",
-      "Log 10 — Independent contract activity noted.",
-      "Log 14 — Surveillance reduced per oversight decision."
-    ]
+    "id":"aria-valen",
+    "archiveId":"ARCH-01-ARIA",
+    "status":"MISSING",
+    "name":"Aria Valen",
+    "meta":"Age 24 • Intelligence Asset",
+    "summary":"Disappeared following unauthorized access to archival layers."
   },
   {
-    "id": "lira-voss",
-    "archiveId": "ARCH-03-LIRA",
-    "status": "SEALED",
-    "lockCode": "731",
-    "name": "Lira Voss",
-    "meta": "Age 29 • Undercover Operative",
-    "summary": "Long-term covert operative embedded in outer colonies; mission scope and outcomes partially [REDACTED].",
-    "backstory": "Lira Voss was deployed under deep-cover protocols with no scheduled extraction window. Multiple reports suggest operational drift beyond original parameters.",
-    "details": "All mission data restricted. Access requires clearance override. Exposure risk classified as severe.",
-    "recentActions": [
-      "Transmitted encrypted burst signal",
-      "Broke scheduled silence window",
-      "File status changed to SEALED"
-    ],
-    "logs": [
-      "Log 01 — Deep-cover insertion confirmed.",
-      "Log 04 — Communication latency exceeds tolerance.",
-      "Log 08 — Behavioral deviation flagged.",
-      "Log 11 — Emergency seal authorized.",
-      "Log 15 — Lock protocol engaged."
-    ]
-  },
-  {
-    "id": "ezra-kline",
-    "archiveId": "ARCH-04-EZRA",
-    "status": "ACTIVE",
-    "name": "Ezra Kline",
-    "meta": "Age 41 • Archive Systems Engineer",
-    "summary": "Senior systems engineer responsible for maintaining archival integrity and memory indexing infrastructure.",
-    "backstory": "Ezra Kline oversaw multiple generations of archive hardware. His familiarity with legacy systems grants him access few others possess.",
-    "details": "Granted persistent access to non-public maintenance layers. Monitored for potential conflicts of interest.",
-    "recentActions": [
-      "Performed integrity sweep on Archive Wing B",
-      "Submitted maintenance override request",
-      "Flagged anomalous data recursion"
-    ],
-    "logs": [
-      "Log 02 — Assigned to archive infrastructure team.",
-      "Log 07 — Legacy system familiarity noted.",
-      "Log 13 — Anomaly detection algorithm updated."
-    ]
+    "id":"kael-thorne",
+    "archiveId":"ARCH-02-KAEL",
+    "status":"ACTIVE",
+    "name":"Kael Thorne",
+    "meta":"Age 34 • Independent Operative",
+    "summary":"Former officer operating beyond command oversight."
   }
 ]
