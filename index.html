@@ -3,194 +3,276 @@
 <head>
 <meta charset="UTF-8">
 <title>Archive Site 1</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-/* ===== BASE ===== */
+/* ===== GLOBAL ===== */
 body {
-  background:#050505;
-  color:white;
-  font-family:"Courier New", monospace;
-  padding:30px;
-  margin:0;
-}
-
-/* ===== CRT OVERLAY ===== */
-body::before {
-  content:"";
-  position:fixed;
-  inset:0;
-  background:repeating-linear-gradient(
-    to bottom,
-    rgba(255,255,255,.025),
-    rgba(255,255,255,.025) 1px,
-    transparent 1px,
-    transparent 3px
-  );
-  pointer-events:none;
-  z-index:1000;
-}
-
-body::after {
-  content:"";
-  position:fixed;
-  inset:0;
-  background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='.035'/%3E%3C/svg%3E");
-  pointer-events:none;
-  z-index:1001;
+  margin: 0;
+  background: black;
+  color: white;
+  font-family: "Courier New", monospace;
 }
 
 /* ===== INTRO ===== */
 #boot {
-  position:fixed;
-  inset:0;
-  background:black;
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
+  position: fixed;
+  inset: 0;
+  background: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
 }
 
 #bootText {
-  max-width:600px;
-  line-height:1.6;
-  white-space:pre-wrap;
-  animation:flicker 2s infinite;
+  max-width: 600px;
+  line-height: 1.6;
+  font-size: 16px;
+  white-space: pre-wrap;
+  animation: flicker 2s infinite;
 }
 
 @keyframes flicker {
-  50% { opacity:.9; }
+  50% { opacity: 0.9; }
 }
 
-/* ===== SEARCH ===== */
-h1 { margin-bottom:25px; }
-
-#search {
-  width:100%;
-  padding:14px;
-  background:#0b0b0b;
-  color:white;
-  border:1px solid white;
-  margin-bottom:30px;
-  font-size:16px;
+/* ===== BLACKOUT TRANSITION ===== */
+#blackout {
+  position: fixed;
+  inset: 0;
+  background: black;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 9000;
+  transition: opacity 2s ease;
 }
 
-/* ===== RESULTS ===== */
-#results {
-  display:flex;
-  flex-direction:column;
-  gap:22px;
+/* ===== ARCHIVE ===== */
+#archive {
+  opacity: 0;
+  transition: opacity 2s ease;
+  padding: 40px;
 }
 
-.result-card {
-  background:#0b0b0b;
-  border:1px solid white;
-  padding:26px 30px;
-  border-radius:6px;
-  cursor:pointer;
-  animation:panelIn .35s ease forwards;
-  opacity:0;
+h1 {
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-@keyframes panelIn {
-  from { opacity:0; transform:translateY(12px); }
-  to { opacity:1; transform:translateY(0); }
+input {
+  width: 100%;
+  padding: 12px;
+  background: black;
+  border: 1px solid white;
+  color: white;
+  font-family: inherit;
 }
 
-.result-card:hover { background:#141414; }
-
-.archive-header {
-  display:flex;
-  justify-content:space-between;
-  font-size:12px;
-  margin-bottom:8px;
+/* ===== CHARACTER BOX ===== */
+.character-box {
+  border: 1px solid white;
+  padding: 20px;
+  margin-top: 20px;
+  cursor: pointer;
+  transition: background 0.3s;
 }
 
-.result-name { font-size:22px; font-weight:bold; margin-bottom:6px; }
-.result-meta { opacity:.8; margin-bottom:10px; }
-.result-summary { line-height:1.4; }
-
-/* ===== STATUS ===== */
-.status-ACTIVE { color:#6bff6b; border:1px solid #6bff6b; padding:2px 6px; }
-.status-MISSING { color:#ffd36b; border:1px solid #ffd36b; padding:2px 6px; }
-.status-SEALED { color:#ff6b6b; border:1px solid #ff6b6b; padding:2px 6px; }
-
-/* ===== SEALED RIBBON ===== */
-.sealed-ribbon {
-  background:#ff6b6b;
-  color:white;
-  font-size:11px;
-  font-weight:bold;
-  letter-spacing:1px;
-  padding:4px 10px;
-  display:inline-block;
-  margin-bottom:8px;
+.character-box:hover {
+  background: rgba(255,255,255,0.05);
 }
 
-/* ===== REDACTION ===== */
-.redacted {
-  background:white;
-  color:white;
-  padding:0 4px;
+.ribbon {
+  color: red;
+  font-size: 12px;
+  margin-bottom: 8px;
 }
 
-/* ===== LOCK OVERLAY ===== */
-#lockOverlay {
-  display:none;
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.95);
-  align-items:center;
-  justify-content:center;
-  z-index:9998;
+.character-name {
+  font-size: 20px;
+  font-weight: bold;
 }
 
-.lock-box {
-  border:2px solid white;
-  padding:40px;
-  text-align:center;
-  width:320px;
+.character-summary {
+  font-size: 14px;
+  opacity: 0.8;
 }
 
-.lock-box input {
-  width:80px;
-  font-size:20px;
-  padding:8px;
-  background:black;
-  color:white;
-  border:1px solid white;
-  text-align:center;
+/* ===== FILE VIEW ===== */
+#fileView {
+  display: none;
+  margin-top: 40px;
+  border-top: 1px solid white;
+  padding-top: 30px;
 }
 
-.lock-error {
-  color:#ff6b6b;
-  margin-top:10px;
-  display:none;
+.back {
+  margin-bottom: 30px;
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.back:hover {
+  opacity: 1;
 }
 </style>
 </head>
 
 <body>
 
+<!-- INTRO -->
 <div id="boot">
   <div id="bootText"></div>
-  <div id="blackout"></div>
 </div>
 
-<h1>Archive Site 1</h1>
-<input id="search" placeholder="Search the records...">
-<div id="results"></div>
+<div id="blackout"></div>
 
-<div id="lockOverlay">
-  <div class="lock-box">
-    <h2 id="lockName"></h2>
-    <p>FILE SEALED</p>
-    <input id="lockInput" maxlength="3" placeholder="000">
-    <div class="lock-error">ACCESS DENIED</div>
+<!-- ARCHIVE -->
+<div id="archive">
+  <h1><b>Archive Site 1</b></h1>
+
+  <input type="text" placeholder="Search names..." oninput="searchCharacters(this.value)">
+
+  <div id="results"></div>
+
+  <div id="fileView">
+    <div class="back" onclick="closeFile()">← Back to archive</div>
+    <div id="fileContent"></div>
   </div>
 </div>
 
-<script src="script.js"></script>
+<script>
+/* ===== INTRO TEXT VARIANTS ===== */
+const introVariants = [
+  [
+    "You made your way to the archives...",
+    "",
+    "Somehow.",
+    "",
+    "I suppose we all have our ways.",
+    "",
+    "Be careful what you search for."
+  ],
+  [
+    "The doors were never locked.",
+    "",
+    "They only waited.",
+    "",
+    "You stepped inside anyway."
+  ],
+  [
+    "Dust stirs as you enter.",
+    "",
+    "These names were not meant to be spoken aloud."
+  ],
+  [
+    "You were not summoned.",
+    "",
+    "You arrived.",
+    "",
+    "That distinction matters."
+  ]
+];
+
+const introLines = introVariants[Math.floor(Math.random() * introVariants.length)];
+const bootText = document.getElementById("bootText");
+const boot = document.getElementById("boot");
+const blackout = document.getElementById("blackout");
+const archive = document.getElementById("archive");
+
+let line = 0;
+let char = 0;
+
+function typeIntro() {
+  if (line >= introLines.length) {
+    setTimeout(() => {
+      boot.style.transition = "opacity 2s ease";
+      boot.style.opacity = "0";
+      blackout.style.opacity = "1";
+
+      setTimeout(() => {
+        boot.remove();
+        archive.style.opacity = "1";
+        blackout.style.opacity = "0";
+        setTimeout(() => blackout.remove(), 2000);
+      }, 2000);
+
+    }, 2000);
+    return;
+  }
+
+  if (char < introLines[line].length) {
+    bootText.textContent += introLines[line][char];
+    char++;
+    setTimeout(typeIntro, 35);
+  } else {
+    bootText.textContent += "\n";
+    line++;
+    char = 0;
+    setTimeout(typeIntro, 400);
+  }
+}
+
+typeIntro();
+
+/* ===== CHARACTER DATA ===== */
+const characters = [
+  {
+    id: "001",
+    name: "Eldric Thorne",
+    status: "SEALED",
+    summary: "Age 42 — Former Royal Archivist. Knows too much about the Old Crown.",
+    details: "Eldric vanished after cataloguing the Black Ledger. His notes end abruptly."
+  },
+  {
+    id: "002",
+    name: "Maelin of Ash",
+    status: "ACTIVE",
+    summary: "Age unknown — Wandering chronicler. Writes names that should not exist.",
+    details: "Maelin appears across multiple regions without aging."
+  }
+];
+
+/* ===== SEARCH ===== */
+function searchCharacters(query) {
+  const results = document.getElementById("results");
+  results.innerHTML = "";
+  document.getElementById("fileView").style.display = "none";
+
+  characters
+    .filter(c => c.name.toLowerCase().includes(query.toLowerCase()))
+    .forEach(c => {
+      const box = document.createElement("div");
+      box.className = "character-box";
+      box.innerHTML = `
+        ${c.status === "SEALED" ? `<div class="ribbon">FILE SEALED</div>` : ""}
+        <div class="character-name">${c.name}</div>
+        <div class="character-summary">${c.summary}</div>
+      `;
+      box.onclick = () => openFile(c);
+      results.appendChild(box);
+    });
+}
+
+/* ===== FILE VIEW ===== */
+function openFile(character) {
+  document.getElementById("results").innerHTML = "";
+  const file = document.getElementById("fileView");
+  const content = document.getElementById("fileContent");
+
+  content.innerHTML = `
+    <h2>${character.name}</h2>
+    <p><b>Archive ID:</b> ${character.id}</p>
+    <p><b>Status:</b> ${character.status}</p>
+    <p>${character.details}</p>
+  `;
+
+  file.style.display = "block";
+}
+
+function closeFile() {
+  document.getElementById("fileView").style.display = "none";
+}
+</script>
+
 </body>
 </html>
