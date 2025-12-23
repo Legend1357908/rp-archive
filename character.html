@@ -1,101 +1,38 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Character Archive</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Character File</title>
 
-<style>
-body {
-  background:#0a0a0a;
-  color:white;
-  font-family:'Courier New', monospace;
-  padding:30px;
-  margin:0;
-}
-
-h1 { margin-bottom:20px; }
-h2 { margin-top:20px; margin-bottom:10px; }
-p { margin-bottom:10px; line-height:1.5; }
-
-.status-ACTIVE { color:#6bff6b; }
-.status-MISSING { color:#ffd36b; }
-.status-SEALED { color:#ff6b6b; }
-
-.back-button {
-  display:inline-block;
-  margin-bottom:25px;
-  padding:8px 14px;
-  border:1px solid white;
-  border-radius:5px;
-  text-decoration:none;
-  color:white;
-  background:#111;
-}
-
-.back-button:hover { background:#1a1a1a; }
-.redacted { background:white; color:white; padding:0 4px; border-radius:2px; }
-</style>
+  <!-- Your external stylesheet -->
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
+  <div class="wrap">
 
-<a class="back-button" href="index.html">← Back to Archive</a>
+    <!-- Header -->
+    <header>
+      <h1 id="characterName">Loading…</h1>
+      <p class="lead" id="characterSubtitle"></p>
+    </header>
 
-<h1 id="charName"></h1>
-<div id="charStatus"></div>
-<p id="charMeta"></p>
-<h2>Summary</h2>
-<p id="charSummary"></p>
-<h2>Backstory</h2>
-<p id="charBackstory"></p>
-<h2>Details</h2>
-<p id="charDetails"></p>
-<h2>Recent Actions</h2>
-<ul id="charActions"></ul>
-<h2>Logs</h2>
-<ul id="charLogs"></ul>
+    <!-- Character content -->
+    <section id="characterContent">
+      <!-- script.js will fill this dynamically -->
+    </section>
 
-<script>
-const urlParams = new URLSearchParams(window.location.search);
-const charId = urlParams.get("id");
+    <!-- Back button -->
+    <button id="backButton" class="btn ghost">Back to Archive</button>
+  </div>
 
-fetch("characters.json")
-  .then(r => r.json())
-  .then(chars => {
-    const c = chars.find(ch => ch.id === charId);
-    if(!c) {
-      document.body.innerHTML = "<h1>Character not found</h1>";
-      return;
-    }
+  <!-- Blackout overlay -->
+  <div id="blackout" aria-hidden="true">
+    <div id="blackoutMessage" role="status" aria-live="polite"></div>
+  </div>
 
-    // Helper: redactions
-    function redact(text){
-      if(!text) return '';
-      return text.replace(/\[REDACTED\]/g,'<span class="redacted">██████</span>');
-    }
-
-    document.getElementById("charName").textContent = c.name;
-    document.getElementById("charStatus").innerHTML = `<span class="status-${c.status}">${c.status}</span>`;
-    document.getElementById("charMeta").textContent = c.meta;
-    document.getElementById("charSummary").innerHTML = redact(c.summary);
-    document.getElementById("charBackstory").innerHTML = redact(c.backstory);
-    document.getElementById("charDetails").innerHTML = redact(c.details);
-
-    const actionsUl = document.getElementById("charActions");
-    c.recentActions.forEach(a => {
-      const li = document.createElement("li");
-      li.textContent = a;
-      actionsUl.appendChild(li);
-    });
-
-    const logsUl = document.getElementById("charLogs");
-    c.logs.forEach(l => {
-      const li = document.createElement("li");
-      li.innerHTML = redact(l);
-      logsUl.appendChild(li);
-    });
-  })
-  .catch(err => console.error("Failed to load characters.json:", err));
-</script>
+  <!-- Your external script -->
+  <script src="script.js"></script>
 </body>
 </html>
