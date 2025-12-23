@@ -1,16 +1,45 @@
 [
   {
-    "id": "001",
-    "name": "Eldric Thorne",
-    "status": "SEALED",
-    "summary": "Age 42 — Former Royal Archivist. Knows too much about the Old Crown.",
-    "details": "Eldric vanished after cataloguing the Black Ledger. His notes end abruptly, ink torn from the page as if scraped away."
+    "id": "notes",
+    "name": "Notes",
+    "subtitle": "Loose fragments and scribbles",
+    "restricted": false,
+    "content": [
+      "A few scrawled lines about errands and a name half‑remembered.",
+      "Ink smudges where something was crossed out hastily.",
+      "Nothing here feels finished."
+    ]
   },
+
   {
-    "id": "002",
-    "name": "Maelin of Ash",
-    "status": "ACTIVE",
-    "summary": "Age unknown — Wandering chronicler. Writes names that should not exist.",
-    "details": "Maelin has been sighted across multiple regions over decades, unchanged. Marginal notes appear in handwriting that does not match his own."
+    "id": "locked",
+    "name": "Locked Document",
+    "subtitle": "Unreadable encryption",
+    "restricted": false,
+    "content": [
+      "The text is scrambled beyond recognition.",
+      "Symbols repeat in patterns that feel intentional but indecipherable.",
+      "Whatever this once was, it is no longer accessible."
+    ]
+  },
+
+  {
+    "id": "missing",
+    "name": "Missing File",
+    "subtitle": "Listed but not present",
+    "restricted": false,
+    "content": [
+      "This entry exists only as a reference.",
+      "The file itself is absent.",
+      "Nothing more can be recovered."
+    ]
+  },
+
+  {
+    "id": "secret",
+    "name": "Restricted File",
+    "subtitle": "Access permanently denied",
+    "restricted": true,
+    "content": []
   }
 ]
