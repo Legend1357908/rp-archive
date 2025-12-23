@@ -36,7 +36,7 @@ body {
   50% { opacity: 0.9; }
 }
 
-/* ===== BLACKOUT TRANSITION ===== */
+/* ===== BLACKOUT ===== */
 #blackout {
   position: fixed;
   inset: 0;
@@ -71,7 +71,7 @@ input {
 /* ===== CHARACTER BOX ===== */
 .character-box {
   border: 1px solid white;
-  padding: 20px;
+  padding: 24px;
   margin-top: 20px;
   cursor: pointer;
   transition: background 0.3s;
@@ -82,13 +82,13 @@ input {
 }
 
 .ribbon {
-  color: red;
+  color: #ff6b6b;
   font-size: 12px;
   margin-bottom: 8px;
 }
 
 .character-name {
-  font-size: 20px;
+  font-size: 22px;
   font-weight: bold;
 }
 
@@ -102,11 +102,11 @@ input {
   display: none;
   margin-top: 40px;
   border-top: 1px solid white;
-  padding-top: 30px;
+  padding-top: 40px;
 }
 
 .back {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
   cursor: pointer;
   opacity: 0.7;
 }
@@ -141,7 +141,7 @@ input {
 </div>
 
 <script>
-/* ===== INTRO TEXT VARIANTS ===== */
+/* ===== INTRO VARIANTS ===== */
 const introVariants = [
   [
     "You made your way to the archives...",
@@ -155,14 +155,12 @@ const introVariants = [
   [
     "The doors were never locked.",
     "",
-    "They only waited.",
-    "",
-    "You stepped inside anyway."
+    "They only waited."
   ],
   [
     "Dust stirs as you enter.",
     "",
-    "These names were not meant to be spoken aloud."
+    "These records were not meant for you."
   ],
   [
     "You were not summoned.",
@@ -195,7 +193,6 @@ function typeIntro() {
         blackout.style.opacity = "0";
         setTimeout(() => blackout.remove(), 2000);
       }, 2000);
-
     }, 2000);
     return;
   }
@@ -214,29 +211,23 @@ function typeIntro() {
 
 typeIntro();
 
-/* ===== CHARACTER DATA ===== */
-const characters = [
-  {
-    id: "001",
-    name: "Eldric Thorne",
-    status: "SEALED",
-    summary: "Age 42 — Former Royal Archivist. Knows too much about the Old Crown.",
-    details: "Eldric vanished after cataloguing the Black Ledger. His notes end abruptly."
-  },
-  {
-    id: "002",
-    name: "Maelin of Ash",
-    status: "ACTIVE",
-    summary: "Age unknown — Wandering chronicler. Writes names that should not exist.",
-    details: "Maelin appears across multiple regions without aging."
-  }
-];
+/* ===== LOAD CHARACTERS FROM JSON ===== */
+let characters = [];
+
+fetch("characters.json")
+  .then(res => res.json())
+  .then(data => {
+    characters = data;
+  })
+  .catch(err => console.error("Archive load failed:", err));
 
 /* ===== SEARCH ===== */
 function searchCharacters(query) {
   const results = document.getElementById("results");
   results.innerHTML = "";
   document.getElementById("fileView").style.display = "none";
+
+  if (!query) return;
 
   characters
     .filter(c => c.name.toLowerCase().includes(query.toLowerCase()))
@@ -256,7 +247,8 @@ function searchCharacters(query) {
 /* ===== FILE VIEW ===== */
 function openFile(character) {
   document.getElementById("results").innerHTML = "";
-  const file = document.getElementById("fileView");
+
+  const fileView = document.getElementById("fileView");
   const content = document.getElementById("fileContent");
 
   content.innerHTML = `
@@ -266,7 +258,7 @@ function openFile(character) {
     <p>${character.details}</p>
   `;
 
-  file.style.display = "block";
+  fileView.style.display = "block";
 }
 
 function closeFile() {
